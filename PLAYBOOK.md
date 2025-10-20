@@ -1,9 +1,10 @@
 ## COS 460/540 - Computer Networks
+
 # Project 2: HTTP Server
 
-# <<YOUR NAME>>
+# <Courtney Jackson>
 
-This project is written in <<LAUNGUAGE USED>> on <<OPERATING SYSTEM>>.
+This project is written in <JAVA> on <Mac16.8>.
 
 ## How to compile
 
