@@ -3,13 +3,17 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.Locale;
 
 public class ServerProtocol implements Runnable {
     private String documentRoot;
     private Socket clientSocket;
     private static final String SERVER_NAME = "CourtneysHTTPServer/1.0";
-    LocalDate now = LocalDate.now();
+    private static final DateTimeFormatter DATE = DateTimeFormatter
+            .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 
     public ServerProtocol(Socket clientSocket, String documentRoot) {
         this.clientSocket = clientSocket;
@@ -76,7 +80,8 @@ public class ServerProtocol implements Runnable {
             // Build and send HTTP response
             StringBuilder headers = new StringBuilder();
             headers.append("HTTP/1.1 200 OK\r\n");
-            headers.append("Date: ").append(now).append("\r\n");
+            headers.append("Date: ").append(ZonedDateTime.now(ZoneId.of("GMT")).format(DATE))
+                    .append("\r\n");
             headers.append("Server: ").append(SERVER_NAME).append("\r\n");
             headers.append("Content-Type: ").append(contentType).append("\r\n");
             headers.append("Content-Length: ").append(fileContent.length).append("\r\n");
@@ -99,7 +104,7 @@ public class ServerProtocol implements Runnable {
     private void sendErrorResponse(OutputStream outputStream, String status, String message) throws IOException {
         StringBuilder response = new StringBuilder();
         response.append("HTTP/1.1 ").append(status).append("\r\n");
-        response.append("Date: ").append(now).append("\r\n");
+        response.append("Date: ").append(ZonedDateTime.now(ZoneId.of("GMT")).format(DATE)).append("\r\n");
         response.append("Server: ").append(SERVER_NAME).append("\r\n");
         response.append("Content-Type: text/html\r\n");
         response.append("Content-Length: ").append(message.length()).append("\r\n");
