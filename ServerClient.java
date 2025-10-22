@@ -2,7 +2,7 @@
 import java.io.*;
 import java.net.*;
 
-public class ServerClient1 {
+public class ServerClient {
     public static void main(String[] args) throws IOException {
 
         if (args.length != 2) {
@@ -20,17 +20,16 @@ public class ServerClient1 {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(kkSocket.getInputStream()));) {
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-            String fromServer;
-            String fromUser;
+            String fromServer = "";
+            String fromUser = "";
 
-            while ((fromServer = in.readLine()) != null) {
-                System.out.println(fromServer);
-                if (fromServer.equals("Bye."))
-                    break;
+            fromUser = stdIn.readLine();
+            if (fromUser != null) {
+                out.println(fromUser);
 
-                fromUser = stdIn.readLine();
-                if (fromUser != null) {
-                    out.println(fromUser);
+                while ((fromServer = in.readLine()) != null) {
+                    System.out.println(fromServer);
+
                 }
             }
         } catch (UnknownHostException e) {
